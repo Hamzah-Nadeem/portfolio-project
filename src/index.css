@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root Variables */
+:root {
+  --color-dark: #0f1419;
+  --color-dark-light: #1a1f26;
+  --color-accent: #2b8ecc;
+  --color-accent-light: #3fa3e0;
+  --color-success: #6bb88d;
+  --color-warning: #e8a368;
+  --color-text: #ffffff;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0f1419;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Container Utility */
+.container-custom {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.btn-primary {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background-color: #2b8ecc;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #3fa3e0;
+}
+
+.heading-xl {
+  font-size: 3rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.heading-lg {
+  font-size: 2.25rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.text-body {
+  font-size: 1rem;
+  color: #d1d5db;
+}
+
+.fade-enter {
+  animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Swiper customizations */
+.swiper {
+  overflow: visible;
+}
+
+.swiper-slide {
+  opacity: 0.4;
+  transition: opacity 0.6s ease;
+}
+
+.swiper-slide-active {
+  opacity: 1;
+}
+
+.swiper-pagination-bullet {
+  background-color: #4b5563;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #2b8ecc;
+}
