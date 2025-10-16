@@ -1,34 +1,25 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import ProjectCard from "./ProjectCard";
 import { carouselSlides, projectInfo } from "../data/projects";
+import SwiperCarousel from "./common/SwiperCarousel";
 
 export default function ProjectCarousel({ onSlideChange }) {
   return (
     <div className="w-full">
-      <Swiper
-        modules={[Navigation, Pagination]}
+      <SwiperCarousel
+        slides={carouselSlides}
+        onSlideChange={onSlideChange}
         spaceBetween={20}
         slidesPerView={1}
         breakpoints={{
           640: { slidesPerView: 1.5 },
           1024: { slidesPerView: 2.5 },
         }}
-        onSlideChange={(swiper) => {
-          onSlideChange(swiper.activeIndex);
-        }}
-        pagination={{ clickable: true }}
+        showPagination={true}
+        paginationConfig={{ paddingBottom: "!pb-16" }}
         className="mb-8"
       >
-        {carouselSlides.map((slide, index) => (
-          <SwiperSlide key={slide.id}>
-            <ProjectCard image={slide.image} index={index} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        {(slide, index) => <ProjectCard image={slide.image} index={index} />}
+      </SwiperCarousel>
 
       <button
         className={`${projectInfo.buttonColor} hover:opacity-90 px-8 py-3 rounded-lg font-semibold transition-all duration-300 text-white`}
