@@ -1,13 +1,11 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 
-function App() {
+export default function App() {
   return (
-    <div className="bg-dark min-h-screen">
+    <div className="bg-gray-900 min-h-screen">
       <Navbar />
       <Hero />
     </div>
   );
 }
-
-export default App;

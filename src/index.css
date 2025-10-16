@@ -2,7 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Root Variables */
+/* =========================
+   🔧 Global Reset & Box Model
+   ========================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-color: #0f1419;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.5;
+}
+
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Reset list styles */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Reset images */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Reset form elements */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Remove button border/outline default */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* =========================
+   🎨 Root Variables
+   ========================= */
 :root {
   --color-dark: #0f1419;
   --color-dark-light: #1a1f26;
@@ -13,22 +79,9 @@
   --color-text: #ffffff;
 }
 
-* {
-  scroll-behavior: smooth;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background-color: #0f1419;
-  color: #ffffff;
-  font-family: system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Container Utility */
+/* =========================
+   📦 Utilities & Components
+   ========================= */
 .container-custom {
   margin-left: auto;
   margin-right: auto;
@@ -38,24 +91,21 @@ body {
   max-width: 1440px;
 }
 
+/* Button */
 .btn-primary {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  background-color: #2b8ecc;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-accent);
   color: #ffffff;
   font-weight: 600;
   border-radius: 0.5rem;
   transition: background-color 0.3s ease;
-  border: none;
-  cursor: pointer;
 }
 
 .btn-primary:hover {
-  background-color: #3fa3e0;
+  background-color: var(--color-accent-light);
 }
 
+/* Typography */
 .heading-xl {
   font-size: 3rem;
   font-weight: bold;
@@ -73,10 +123,9 @@ body {
   color: #d1d5db;
 }
 
-.fade-enter {
-  animation: fadeIn 0.6s ease-in;
-}
-
+/* =========================
+   ✨ Animations
+   ========================= */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -86,7 +135,17 @@ body {
   }
 }
 
-/* Swiper customizations */
+.fade-enter {
+  animation: fadeIn 0.6s ease-in;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* =========================
+   🌀 Swiper Customization
+   ========================= */
 .swiper {
   overflow: visible;
 }
@@ -105,5 +164,5 @@ body {
 }
 
 .swiper-pagination-bullet-active {
-  background-color: #2b8ecc;
+  background-color: var(--color-accent);
 }

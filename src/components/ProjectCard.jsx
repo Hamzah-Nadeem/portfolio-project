@@ -1,6 +1,6 @@
 export default function ProjectCard({ image, index }) {
   return (
-    <div className="rounded-2xl overflow-hidden border-4 border-white shadow-lg hover:shadow-2xl transition-all duration-300">
+    <div className="rounded-2xl overflow-hidden  shadow-lg hover:shadow-2xl transition-all duration-300">
       <img
         src={image}
         alt={`Project slide ${index}`}

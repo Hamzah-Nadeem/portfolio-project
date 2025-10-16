@@ -1,21 +1,27 @@
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-md border-b border-gray-700">
-      <div className="container-custom h-20 flex items-center justify-between">
-        <div className="text-2xl font-bold">Hamza Nadeem</div>
-        <ul className="hidden md:flex gap-8">
+    <nav className="w-full bg-dark border-b border-gray-800">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div className="text-2xl font-bold text-white">Hamza Nadeem</div>
+        <ul className="md:flex gap-8 text-white">
           <li>
-            <a href="#about" className="hover:text-accent transition-colors">
+            <a href="#about" className="hover:text-blue-400 transition-colors">
               About
             </a>
           </li>
           <li>
-            <a href="#projects" className="hover:text-accent transition-colors">
+            <a
+              href="#projects"
+              className="hover:text-blue-400 transition-colors"
+            >
               Projects
             </a>
           </li>
           <li>
-            <a href="#contacts" className="hover:text-accent transition-colors">
+            <a
+              href="#contacts"
+              className="hover:text-blue-400 transition-colors"
+            >
               Contacts
             </a>
           </li>
