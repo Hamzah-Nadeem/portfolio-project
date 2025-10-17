@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 /* =========================
    🔧 Global Reset & Box Model
@@ -9,8 +7,6 @@
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
@@ -67,9 +63,9 @@ button {
 }
 
 /* =========================
-   🎨 Root Variables
+   🎨 Root Variables (Optional)
    ========================= */
-:root {
+@theme {
   --color-dark: #0f1419;
   --color-dark-light: #1a1f26;
   --color-accent: #2b8ecc;
