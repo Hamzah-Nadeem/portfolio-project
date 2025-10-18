@@ -1,14 +1,15 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, EffectCoverflow } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/effect-coverflow";
 
 export default function SwiperCarousel({
   slides,
   onSlideChange,
   spaceBetween = 20,
-  slidesPerView = 1,
+  slidesPerView = 3,
   breakpoints,
   showPagination = true,
   showNavigation = false,
@@ -18,16 +19,24 @@ export default function SwiperCarousel({
 }) {
   return (
     <Swiper
-      modules={[Navigation, Pagination]}
-      spaceBetween={spaceBetween}
+      modules={[Navigation, Pagination, EffectCoverflow]}
+      effect="coverflow"
+      grabCursor={true}
+      centeredSlides={true}
       slidesPerView={slidesPerView}
-      breakpoints={breakpoints}
-      onSlideChange={(swiper) => {
-        if (onSlideChange) {
-          onSlideChange(swiper.activeIndex);
-        }
+      coverflowEffect={{
+        rotate: 0,
+        stretch: 0, // keep it 0 for clean alignment
+        depth: 150, // smaller depth to avoid extreme perspective
+        modifier: 1, // controls how dramatic scaling is
+        slideShadows: false,
       }}
-      pagination={showPagination ? { clickable: true } : false}
+      spaceBetween={spaceBetween}
+      breakpoints={breakpoints}
+      onSlideChange={(swiper) => onSlideChange?.(swiper.activeIndex)}
+      pagination={
+        showPagination ? { clickable: true, ...paginationConfig } : false
+      }
       navigation={showNavigation}
       className={`swiper-pagination-custom ${
         showPagination ? paginationConfig?.paddingBottom || "!pb-16" : ""
@@ -35,7 +44,7 @@ export default function SwiperCarousel({
     >
       {slides?.map((slide, index) => (
         <SwiperSlide key={slide.id || index}>
-          {children ? children(slide, index) : null}
+          {children?.(slide, index)}
         </SwiperSlide>
       ))}
     </Swiper>

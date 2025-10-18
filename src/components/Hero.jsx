@@ -7,9 +7,7 @@ export default function Hero() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const currentSlide = carouselSlides[currentSlideIndex];
 
-  const handleSlideChange = (index) => {
-    setCurrentSlideIndex(index);
-  };
+  const handleSlideChange = (index) => setCurrentSlideIndex(index);
 
   return (
     <section
@@ -17,7 +15,13 @@ export default function Hero() {
       style={{ backgroundImage: `url(${currentSlide.bgImage})` }}
     >
       <div className="absolute inset-0 bg-black/60" />
-      <Container className="relative z-10">
+      <Container
+        className="relative z-10"
+        style={{
+          marginInlineStart: "calc((100% - 1260px) / 2)",
+          width: "auto",
+        }}
+      >
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 min-h-screen py-24">
           {/* Left: Text */}
           <div className="flex-1 text-center lg:text-left">
@@ -35,8 +39,11 @@ export default function Hero() {
           </div>
 
           {/* Right: Carousel */}
-          <div className="flex-1 w-full max-w-2xl lg:max-w-[600px]">
-            <ProjectCarousel onSlideChange={handleSlideChange} />
+          <div className="flex-1 w-full max-w-2xl lg:max-w-[900px]  overflow-visible">
+            <ProjectCarousel
+              onSlideChange={handleSlideChange}
+              activeIndex={currentSlideIndex}
+            />
           </div>
         </div>
       </Container>

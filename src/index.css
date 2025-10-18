@@ -22,6 +22,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 /* Remove default link styles */

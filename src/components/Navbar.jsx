@@ -2,8 +2,8 @@ import Container from "./common/container";
 
 export default function Navbar() {
   return (
-    <Container>
-      <nav className="w-full bg-dark border-b border-gray-800">
+    <Container className="relative z-[99] -mb-20">
+      <nav className="w-full">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="text-2xl font-bold text-white">Hamza Nadeem</div>
           <ul className="flex  gap-8 text-white">
