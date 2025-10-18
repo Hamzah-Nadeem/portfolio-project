@@ -1,37 +1,47 @@
-export const carouselSlides = [
+// src/data/projects.jsx
+
+export const projects = [
   {
     id: 1,
-    projectNumber: "N°1",
+    projectNumber: "Project N°1",
     image: "/assets/1st-slide.webp",
     bgImage: "/assets/project-1-bg.webp",
-    backgroundColor: "bg-slate-900",
+    bgColor: "bg-slate-900",
+    description:
+      "Integer eget lectus sit amet sapien tempus gravida. Mauris euismod elit nec mi facilisis, nec venenatis arcu posuere. Vestibulum ante ipsum primis in faucibus.",
+    buttonColor: "bg-blue",
   },
   {
     id: 2,
-    projectNumber: "N°2",
+    projectNumber: "Project N°2",
     image: "/assets/2nd-slide.webp",
     bgImage: "/assets/project-2-bg.webp",
-    backgroundColor: "bg-emerald-900",
+    bgColor: "bg-emerald-900",
+    description:
+      "Praesent semper feugiat nisl, vel cursus justo. Fusce ultricies leo a lacus dapibus, a gravida lorem pretium. Sed at sapien eget elit sollicitudin facilisis.",
+    buttonColor: "bg-magenta",
   },
   {
     id: 3,
-    projectNumber: "N°3",
+    projectNumber: "Project N°3",
     image: "/assets/3rd-slide.webp",
     bgImage: "/assets/project-3-bg.webp",
-    backgroundColor: "bg-pink-900",
+    bgColor: "bg-pink-900",
+    description:
+      "Integer eget lectus sit amet sapien tempus gravida. Mauris euismod elit nec mi facilisis, nec venenatis arcu posuere. Vestibulum ante ipsum primis in faucibus.",
+    buttonColor: "bg-pink",
   },
   {
     id: 4,
-    projectNumber: "N°4",
+    projectNumber: "Project N°4",
     image: "/assets/4th-slide.webp",
     bgImage: "/assets/project-4-bg.webp",
-    backgroundColor: "bg-yellow-900",
+    bgColor: "bg-yellow-900",
+    description:
+      "Aliquam erat volutpat. Quisque at urna vel lectus commodo lacinia. Curabitur malesuada metus et velit hendrerit, eget volutpat sapien tempor.",
+    buttonColor: "bg-brown",
   },
 ];
 
-export const projectInfo = {
-  description:
-    "Lorem ipsum dolor sit amet consectetur. Nibh pulvinar magna nec fermentum ipsum libero nibh interdum varius. Sagittis vitae nibh velit purus sem etiam. Morbi convallis vulputate quisque morbi.",
-  buttonText: "View Project",
-  buttonColor: "bg-blue-500",
-};
+// If you want to keep the old naming
+export const carouselSlides = projects;

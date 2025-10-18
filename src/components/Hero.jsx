@@ -1,5 +1,7 @@
+// src/components/Hero.jsx
 import { useState } from "react";
-import { carouselSlides, projectInfo } from "../data/projects";
+import { motion, AnimatePresence } from "framer-motion";
+import { carouselSlides } from "../data/projects";
 import ProjectCarousel from "./ProjectCarousel";
 import Container from "./common/container";
 
@@ -8,6 +10,12 @@ export default function Hero() {
   const currentSlide = carouselSlides[currentSlideIndex];
 
   const handleSlideChange = (index) => setCurrentSlideIndex(index);
+
+  const headingVariants = {
+    initial: { y: 50, opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: -50, opacity: 0 },
+  };
 
   return (
     <section
@@ -25,21 +33,35 @@ export default function Hero() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 min-h-screen py-24">
           {/* Left: Text */}
           <div className="flex-1 text-center lg:text-left">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-white transition-all duration-500">
-              Project {currentSlide.projectNumber}
-            </h1>
+            <div className="overflow-hidden h-[80px] mb-6">
+              <AnimatePresence mode="wait">
+                <motion.h1
+                  key={currentSlide.projectNumber}
+                  variants={headingVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ duration: 0.5 }}
+                  className="text-5xl md:text-6xl font-bold text-white"
+                >
+                  {currentSlide.projectNumber}
+                </motion.h1>
+              </AnimatePresence>
+            </div>
+
             <p className="text-lg text-gray-300 mb-10 max-w-md mx-auto lg:mx-0">
-              {projectInfo.description}
+              {currentSlide.description}
             </p>
+
             <button
-              className={`${projectInfo.buttonColor} hover:opacity-90 px-8 py-3 rounded-lg font-semibold transition-all duration-300 text-white`}
+              className={`${currentSlide.buttonColor} hover:opacity-90 px-8 py-3 rounded-lg font-semibold text-white transition-colors duration-500`}
             >
-              {projectInfo.buttonText}
+              View Project
             </button>
           </div>
 
           {/* Right: Carousel */}
-          <div className="flex-1 w-full max-w-2xl lg:max-w-[900px]  overflow-visible">
+          <div className="flex-1 w-full max-w-2xl lg:max-w-[900px] overflow-visible">
             <ProjectCarousel
               onSlideChange={handleSlideChange}
               activeIndex={currentSlideIndex}

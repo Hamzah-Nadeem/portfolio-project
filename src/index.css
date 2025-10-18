@@ -9,6 +9,23 @@
   box-sizing: border-box;
 }
 
+@theme {
+  --color-blue: #2a8bc7;
+  --color-magenta: #56724b;
+  --color-pink: #ce5775;
+  --color-brown: #875719;
+}
+
+/* =========================
+   🔧 Global Reset & Box Model
+   ========================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Rest of your CSS... */
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -58,8 +75,6 @@ select {
 
 /* Remove button border/outline default */
 button {
-  border: none;
-  background: none;
   cursor: pointer;
 }
 

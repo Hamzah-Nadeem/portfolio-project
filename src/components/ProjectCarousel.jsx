@@ -1,12 +1,13 @@
+// src/components/ProjectCarousel.jsx
 import ProjectCard from "./ProjectCard";
-import { carouselSlides, projectInfo } from "../data/projects";
+import { projects } from "../data/projects";
 import SwiperCarousel from "./common/SwiperCarousel";
 
 export default function ProjectCarousel({ onSlideChange, activeIndex }) {
   return (
     <div className="w-full">
       <SwiperCarousel
-        slides={carouselSlides}
+        slides={projects}
         onSlideChange={onSlideChange}
         spaceBetween={20}
         slidesPerView={1}
