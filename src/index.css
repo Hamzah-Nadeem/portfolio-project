@@ -157,7 +157,7 @@ button {
 
 /* Swiper Custom Pagination Styles */
 .swiper-pagination-custom {
-  --swiper-theme-color: #e00000;
+  --swiper-theme-color: #fff;
   --swiper-pagination-bullet-size: 12px;
   --swiper-pagination-bullet-width: 12px;
   --swiper-pagination-bullet-height: 12px;

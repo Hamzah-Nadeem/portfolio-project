@@ -9,12 +9,13 @@ export default function ProjectCarousel({ onSlideChange, activeIndex }) {
       <SwiperCarousel
         slides={projects}
         onSlideChange={onSlideChange}
-        spaceBetween={20}
-        slidesPerView={1}
+        spaceBetween={4}
+        slidesPerView={1.8} // Lower value = bigger slides
         breakpoints={{
-          640: { slidesPerView: 1.5 },
-          1024: { slidesPerView: 1.8 },
-          1440: { slidesPerView: 2.2 },
+          1024: {
+            slidesPerView: 2.2, // Lower value = bigger slides
+            spaceBetween: 30,
+          },
         }}
         showPagination={true}
         paginationConfig={{ paddingBottom: "!pb-16" }}
