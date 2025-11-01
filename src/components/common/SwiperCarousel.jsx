@@ -16,14 +16,17 @@ export default function SwiperCarousel({
   paginationConfig,
   className = "",
   children,
+  centeredSlides = false,
 }) {
   const swiperRef = useRef(null);
   const [freezeSlide, setFreezeSlide] = useState(null);
   const containerRef = useRef(null);
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   const [touchStartX, setTouchStartX] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState(null);
   const isTransitioningRef = useRef(false);
+  const isLastSlideActiveRef = useRef(false);
 
   useEffect(() => {
     if (!swiperRef.current) return;
@@ -43,14 +46,10 @@ export default function SwiperCarousel({
       const touch = event.touches ? event.touches[0] : event;
       const diff = touchStartX - touch.clientX;
 
-      // Determine swipe direction early
       if (Math.abs(diff) > 30) {
-        // Increased threshold for better detection
         if (diff > 0 && swipeDirection !== "forward") {
-          // Swiping left = moving forward
           setSwipeDirection("forward");
 
-          // IMMEDIATELY capture and freeze the current active slide
           const currentActiveSlide = swiper.slides[swiper.activeIndex];
           if (currentActiveSlide && containerRef.current) {
             const rect = currentActiveSlide.getBoundingClientRect();
@@ -67,13 +66,11 @@ export default function SwiperCarousel({
               },
             });
 
-            // Hide the slide immediately
             currentActiveSlide.style.opacity = "0";
             currentActiveSlide.style.visibility = "hidden";
             currentActiveSlide.style.pointerEvents = "none";
           }
         } else if (diff < 0 && swipeDirection !== "backward") {
-          // Swiping right = moving backward
           setSwipeDirection("backward");
         }
       }
@@ -85,7 +82,6 @@ export default function SwiperCarousel({
       const newIndex = swiper.activeIndex;
       const isMovingBack = newIndex < prevIndex;
 
-      // Only apply freeze effect when moving FORWARD (if not already frozen by touch)
       if (
         !isMovingBack &&
         !freezeSlide &&
@@ -111,7 +107,6 @@ export default function SwiperCarousel({
         currentActiveSlide.style.pointerEvents = "none";
       }
 
-      // When moving back, restore visibility of the slide we're moving back to
       if (isMovingBack) {
         const slideToShow = swiper.slides[newIndex];
         if (slideToShow) {
@@ -127,7 +122,6 @@ export default function SwiperCarousel({
       const isMovingBack = newIndex < prevIndex;
 
       if (isMovingBack) {
-        // When moving BACK, restore all slides up to current index
         swiper.slides.forEach((slide, idx) => {
           if (idx <= swiper.activeIndex) {
             slide.style.opacity = "";
@@ -136,7 +130,6 @@ export default function SwiperCarousel({
           }
         });
       } else {
-        // When moving FORWARD, hide slides BEFORE the current active one
         swiper.slides.forEach((slide, idx) => {
           if (idx < swiper.activeIndex) {
             slide.style.opacity = "0";
@@ -146,15 +139,12 @@ export default function SwiperCarousel({
         });
       }
 
-      // Clear the frozen slide after fade completes
       setTimeout(() => {
         setFreezeSlide(null);
         isTransitioningRef.current = false;
       }, 650);
 
-      // Reset swipe direction
       setSwipeDirection(null);
-
       prevIndex = swiper.activeIndex;
     };
 
@@ -171,9 +161,88 @@ export default function SwiperCarousel({
     };
   }, [slides, touchStartX, swipeDirection, freezeSlide]);
 
+  const handleBulletClick = (index) => {
+    if (swiperRef.current) {
+      const swiper = swiperRef.current;
+      const isLastSlide = index === slides.length - 1;
+      const wasLastSlideActive = isLastSlideActiveRef.current;
+
+      // If moving away from last slide, restore normal mode FIRST
+      if (wasLastSlideActive && !isLastSlide) {
+        // Restore visibility to all slides before transitioning
+        swiper.slides.forEach((slide) => {
+          slide.style.opacity = "";
+          slide.style.visibility = "";
+          slide.style.pointerEvents = "";
+        });
+
+        swiper.params.centeredSlides = false;
+        swiper.params.slidesPerView = slidesPerView;
+        swiper.params.resistanceRatio = 1;
+        swiper.update();
+        isLastSlideActiveRef.current = false;
+
+        // Small delay to let update take effect
+        setTimeout(() => {
+          swiper.slideTo(index, 600);
+        }, 50);
+      } else if (isLastSlide) {
+        // Moving to last slide - enable centered mode
+        swiper.params.centeredSlides = true;
+        swiper.params.slidesPerView = slidesPerView;
+        swiper.params.resistanceRatio = 0;
+        swiper.update();
+        isLastSlideActiveRef.current = true;
+
+        swiper.slideTo(index, 600);
+      } else {
+        // Normal slide change
+        swiper.slideTo(index, 600);
+      }
+
+      setActiveSlideIndex(index);
+      onSlideChange?.(index);
+    }
+  };
+
+  const handleSlideChangeInternal = (index) => {
+    if (swiperRef.current) {
+      const swiper = swiperRef.current;
+      const isLastSlide = index === slides.length - 1;
+      const wasLastSlideActive = isLastSlideActiveRef.current;
+
+      // If moving to last slide via swipe/drag
+      if (isLastSlide && !wasLastSlideActive) {
+        swiper.params.centeredSlides = true;
+        swiper.params.slidesPerView = slidesPerView;
+        swiper.params.resistanceRatio = 0;
+        swiper.update();
+        isLastSlideActiveRef.current = true;
+      }
+
+      // If moving away from last slide via swipe/drag
+      if (!isLastSlide && wasLastSlideActive) {
+        // Restore visibility to all slides when leaving last slide
+        swiper.slides.forEach((slide) => {
+          slide.style.opacity = "";
+          slide.style.visibility = "";
+          slide.style.pointerEvents = "";
+        });
+
+        swiper.params.centeredSlides = false;
+        swiper.params.slidesPerView = slidesPerView;
+        swiper.params.resistanceRatio = 1;
+        swiper.update();
+        isLastSlideActiveRef.current = false;
+      }
+    }
+
+    setActiveSlideIndex(index);
+    onSlideChange?.(index);
+  };
+
   return (
     <div ref={containerRef} style={{ position: "relative", width: "100%" }}>
-      {/* Frozen slide overlay - stays in exact position and fades */}
       {freezeSlide && (
         <div
           className="frozen-slide-overlay"
@@ -190,26 +259,31 @@ export default function SwiperCarousel({
           {children?.(freezeSlide.slideData, freezeSlide.index)}
         </div>
       )}
-
       <Swiper
         modules={[Navigation, Pagination]}
         grabCursor={true}
-        centeredSlides={true}
+        centeredSlides={false}
         slidesPerView={slidesPerView}
         spaceBetween={spaceBetween}
+        slidesOffsetAfter={0}
+        slidesOffsetBefore={spaceBetween}
         breakpoints={breakpoints}
+        watchSlidesProgress={true}
+        allowTouchMove={true}
+        shortSwipes={true}
+        longSwipes={true}
+        slidesPerGroupSkip={1}
+        slideToClickedSlide={true}
         onSwiper={(swiper) => {
           swiperRef.current = swiper;
         }}
-        onSlideChange={(swiper) => onSlideChange?.(swiper.activeIndex)}
-        pagination={
-          showPagination ? { clickable: true, ...paginationConfig } : false
+        onSlideChange={(swiper) =>
+          handleSlideChangeInternal(swiper.activeIndex)
         }
+        pagination={false}
         navigation={showNavigation}
         speed={600}
-        className={`swiper-pagination-custom swiper-overlay-effect ${
-          showPagination ? paginationConfig?.paddingBottom || "!pb-16" : ""
-        } ${className}`}
+        className={`swiper-pagination-custom swiper-overlay-effect ${className}`}
       >
         {slides?.map((slide, index) => (
           <SwiperSlide key={slide.id || index}>
@@ -217,6 +291,27 @@ export default function SwiperCarousel({
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {showPagination && (
+        <div
+          className={`custom-pagination flex justify-center gap-2 mt-8 ${
+            paginationConfig?.paddingBottom || "pb-16"
+          }`}
+        >
+          {slides?.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleBulletClick(index)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                index === activeSlideIndex
+                  ? "bg-white w-8"
+                  : "bg-white/50 hover:bg-white/70"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

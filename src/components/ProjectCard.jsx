@@ -1,14 +1,14 @@
 export default function ProjectCard({ image, index, isActive }) {
   return (
     <div
-      className={`transition-transform duration-500 ease-in-out ${
-        isActive ? " z-20" : "scale-90 opacity-80 z-10"
+      className={`transition-opacity duration-500 ease-in-out ${
+        isActive ? "opacity-100 z-20" : "opacity-80 z-10"
       } flex justify-center items-center overflow-visible`}
     >
       <img
         src={image}
         alt={`Project slide ${index}`}
-        className="w-full h-full object-contain rounded-2xl shadow-xl transition-transform duration-500 ease-in-out"
+        className="w-full h-full object-cover rounded-2xl shadow-xl"
       />
     </div>
   );

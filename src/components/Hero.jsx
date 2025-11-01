@@ -1,4 +1,3 @@
-// src/components/Hero.jsx
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { carouselSlides } from "../data/projects";
@@ -23,6 +22,7 @@ export default function Hero() {
       style={{ backgroundImage: `url(${currentSlide.bgImage})` }}
     >
       <div className="absolute inset-0 bg-black/60" />
+
       <Container
         className="relative z-10"
         style={{
